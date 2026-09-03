@@ -36,6 +36,7 @@ export const register = asyncHandler(async (req, res) => {
     name,
     email,
     password,
+    isEmailVerified: true,
   });
 
   // Generate OTP
@@ -188,14 +189,6 @@ export const login = asyncHandler(async (req, res) => {
     });
   }
 
-  // Check email verification
-  if (!user.isEmailVerified) {
-    return res.status(403).json({
-      success: false,
-      message: "Please verify your email before logging in",
-    });
-  }
-
   // Generate tokens
   const accessToken = generateAccessToken(user._id);
 
@@ -290,14 +283,6 @@ export const sendLoginOTP = asyncHandler(async (req, res) => {
     return res.status(404).json({
       success: false,
       message: "User not found. Please register first.",
-    });
-  }
-
-  // Check email verification
-  if (!user.isEmailVerified) {
-    return res.status(403).json({
-      success: false,
-      message: "Please verify your email first.",
     });
   }
 
