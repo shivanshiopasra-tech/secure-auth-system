@@ -39,13 +39,13 @@ export const register = asyncHandler(async (req, res) => {
   });
 
   // Generate OTP
-  const otp = await otpService.generateOTPForUser(
-    email,
-    "EMAIL_VERIFICATION"
-  );
+  // const otp = await otpService.generateOTPForUser(
+  //   email,
+  //   "EMAIL_VERIFICATION"
+  // );
 
   // Send OTP email
-  await sendOTPEmail(email, otp);
+  // await sendOTPEmail(email, otp);
 
   res.status(201).json({
     success: true,
@@ -56,7 +56,7 @@ export const register = asyncHandler(async (req, res) => {
         id: user._id,
         name: user.name,
         email: user.email,
-        isEmailVerified: user.isEmailVerified,
+        // isEmailVerified: user.isEmailVerified,
       },
     },
   });

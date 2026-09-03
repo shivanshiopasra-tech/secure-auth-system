@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/auth.routes.js";
 import userRoutes from "./routes/user.routes.js";
+import errorHandler from "./middleware/error.middleware.js";
 
 dotenv.config();
 
@@ -18,6 +19,8 @@ app.use(
     origin: [
       "http://localhost:5173",
       "https://secure-auth-system-mu.vercel.app",
+      "https://secure-auth-system-mu.vercel.app/",
+      "https://www.secure-auth-system-mu.vercel.app",
     ],
     credentials: true,
   })
@@ -34,6 +37,8 @@ app.get("/", (req, res) => {
 
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/users", userRoutes);
+
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
