@@ -1,22 +1,36 @@
-import "dotenv/config";
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
 
-import app from "./app.js";
+import authRoutes from "./routes/auth.routes.js";
+import userRoutes from "./routes/user.routes.js";
 
-import connectDB from "./config/db.js";
+dotenv.config();
 
+const app = express();
 
-const PORT = process.env.PORT || 5000;
+// Middleware
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://secure-auth-system-mu.vercel.app",
+    ],
+    credentials: true,
+  })
+);
 
+app.use(express.json());
 
-// Connect MongoDB
-connectDB();
+// Routes
+app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/users", userRoutes);
 
-
-// Start Server
-app.listen(PORT, () => {
-
-  console.log(
-    `Server running on port ${PORT}`
-  );
-
+// Test route
+app.get("/", (req, res) => {
+  res.json({
+    message: "Secure Auth System API is running",
+  });
 });
+
+export default app;
